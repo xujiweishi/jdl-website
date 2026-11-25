@@ -1,0 +1,175 @@
+/* ============================================================
+   京东物流官网复刻 · 基础层  base.css
+   ------------------------------------------------------------
+   职责：
+     1. 全局设计变量（品牌色 / 字号 / 间距 / 圆角 / 阴影）
+     2. 浏览器默认样式重置
+     3. 基础排版（标题、正文、链接）
+     4. 通用工具类（容器、栅格、文本截断、滚动动画）
+
+   修改建议：
+     · 换主题色、字号、圆角 → 只改 :root 里的变量即可，全站生效
+     · 页面版心宽度 → 改 --max-width
+   ============================================================ */
+
+:root {
+  /* ---------- 品牌色 ---------- */
+  --jdl-red: #e1251b;          /* 京东红：主色 */
+  --jdl-red-dark: #c01c13;     /* 深红：hover / 按压态 */
+  --jdl-red-light: #ff4a3d;    /* 亮红：渐变 / 高光 */
+  --jdl-red-soft: #fdeceb;     /* 浅红：标签底色 */
+
+  /* ---------- 中性色 ---------- */
+  --ink: #111418;              /* 主标题 */
+  --text: #2b2f33;             /* 正文 */
+  --text-2: #5a6169;           /* 次级正文 */
+  --muted: #8a9099;            /* 辅助说明 */
+  --line: #e8eaed;             /* 分割线 */
+  --line-2: #f0f2f4;
+  --bg: #ffffff;
+  --bg-soft: #f6f7f9;          /* 浅灰底 */
+  --bg-dark: #16181c;          /* 页脚深色底 */
+  --bg-dark-2: #1e2126;
+
+  /* ---------- 尺寸 ---------- */
+  --max-width: 1200px;         /* 版心宽度 */
+  --header-h: 76px;            /* 主导航高度（吸顶定位用） */
+  --topbar-h: 38px;
+  --radius-s: 4px;
+  --radius: 8px;
+  --radius-l: 16px;
+
+  /* ---------- 阴影 ---------- */
+  --shadow-s: 0 2px 8px rgba(17, 20, 24, .06);
+  --shadow-m: 0 10px 28px rgba(17, 20, 24, .10);
+  --shadow-l: 0 20px 50px rgba(17, 20, 24, .16);
+
+  /* ---------- 动效 ---------- */
+  --ease: cubic-bezier(.22, .61, .36, 1);
+  --t-fast: .2s var(--ease);
+  --t-base: .35s var(--ease);
+
+  /* ---------- 字体 ---------- */
+  --font-cn: "PingFang SC", "Microsoft YaHei", "Hiragino Sans GB",
+             "Heiti SC", "Source Han Sans SC", sans-serif;
+  --font-num: "Helvetica Neue", Arial, var(--font-cn);
+}
+
+/* ============================================================
+   1. 重置
+   ============================================================ */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  /* 页面内锚点定位时避开吸顶导航 */
+  scroll-padding-top: calc(var(--header-h) + 12px);
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-cn);
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--text);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body.is-locked { overflow: hidden; } /* 移动端抽屉打开时锁定滚动 */
+
+h1, h2, h3, h4, h5, p, figure, dl, dd { margin: 0; }
+ul, ol { margin: 0; padding: 0; list-style: none; }
+img { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+button, input, select, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; background: none; border: 0; padding: 0; }
+svg { display: block; }
+table { border-collapse: collapse; width: 100%; }
+
+/* 尊重系统的"减少动态效果"偏好 */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    transition-duration: .01ms !important;
+  }
+}
+
+/* ============================================================
+   2. 排版
+   ============================================================ */
+.u-h1 { font-size: 52px; line-height: 1.2; font-weight: 800; letter-spacing: -.5px; }
+.u-h2 { font-size: 32px; line-height: 1.35; font-weight: 700; color: var(--ink); }
+.u-h3 { font-size: 20px; line-height: 1.5; font-weight: 600; color: var(--ink); }
+.u-lead { font-size: 16px; color: var(--text-2); }
+
+/* ============================================================
+   3. 通用工具类
+   ============================================================ */
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding-inline: 24px;
+}
+
+.u-flex { display: flex; align-items: center; }
+.u-between { display: flex; align-items: center; justify-content: space-between; }
+.u-wrap { flex-wrap: wrap; }
+.u-mt-8 { margin-top: 8px; }
+.u-mt-16 { margin-top: 16px; }
+.u-mt-24 { margin-top: 24px; }
+.u-mt-40 { margin-top: 40px; }
+
+/* 多行文本截断（首页卡片标题统一两行） */
+.u-clamp-2,
+.u-clamp-3 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.u-clamp-2 { -webkit-line-clamp: 2; }
+.u-clamp-3 { -webkit-line-clamp: 3; }
+
+/* 屏幕阅读器专用文本（图标按钮的无障碍标签） */
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* 焦点可见性：键盘用户可感知 */
+:focus-visible {
+  outline: 2px solid var(--jdl-red);
+  outline-offset: 3px;
+}
+
+/* ============================================================
+   4. 滚动入场动画（由 js/ui.js 添加 .is-in 触发）
+   ============================================================ */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity .7s var(--ease), transform .7s var(--ease);
+  will-change: opacity, transform;
+}
+[data-reveal].is-in {
+  opacity: 1;
+  transform: none;
+}
+/* 同组元素依次入场：给父级加 data-reveal-group，子项自动延迟 */
+[data-reveal][data-delay="1"] { transition-delay: .08s; }
+[data-reveal][data-delay="2"] { transition-delay: .16s; }
+[data-reveal][data-delay="3"] { transition-delay: .24s; }
+[data-reveal][data-delay="4"] { transition-delay: .32s; }
+[data-reveal][data-delay="5"] { transition-delay: .40s; }
+[data-reveal][data-delay="6"] { transition-delay: .48s; }

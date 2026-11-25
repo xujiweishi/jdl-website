@@ -1,0 +1,547 @@
+/* ============================================================
+   京东物流官网复刻 · 布局层  layout.css
+   ------------------------------------------------------------
+   职责：全站共用的"骨架"——顶栏、主导航（含下拉大菜单）、
+        移动端抽屉、页脚、回到顶部按钮。
+   说明：这些区块的 HTML 由 assets/js/components.js 统一注入，
+        改导航结构请优先改 components.js / config.js，而不是改这里。
+   ============================================================ */
+
+/* ============================================================
+   1. 顶部工具条（企业服务 / 个人服务 / 热线 / 登录）
+   ============================================================ */
+.topbar {
+  height: var(--topbar-h);
+  background: #f7f8fa;
+  border-bottom: 1px solid var(--line-2);
+  font-size: 12px;
+  color: var(--muted);
+}
+.topbar__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+}
+.topbar__slogan { letter-spacing: .5px; }
+.topbar__slogan b { color: var(--text); font-weight: 600; margin-left: 6px; }
+
+.topbar__links {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+.topbar__links a { transition: color var(--t-fast); }
+.topbar__links a:hover { color: var(--jdl-red); }
+.topbar__links .is-active { color: var(--jdl-red); font-weight: 600; }
+
+.topbar__tel {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text);
+}
+.topbar__tel svg { width: 14px; height: 14px; color: var(--jdl-red); }
+
+/* ============================================================
+   2. 主导航
+   ============================================================ */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(255, 255, 255, .96);
+  backdrop-filter: saturate(180%) blur(8px);
+  border-bottom: 1px solid var(--line-2);
+  transition: box-shadow var(--t-base), border-color var(--t-base);
+}
+/* 页面滚动后加深投影（js/ui.js 切换 .is-stuck） */
+.header.is-stuck { box-shadow: var(--shadow-m); border-color: transparent; }
+
+.header__inner {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  height: var(--header-h);
+  position: relative;            /* 作为下拉大菜单的定位基准，使菜单与 1200px 内容区对齐 */
+}
+
+/* ---------- 2.1 Logo（纯 CSS 绘制，无需图片，便于改尺寸）---------- */
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  flex: none;
+}
+.logo__mark {
+  width: 46px;
+  height: 46px;
+  border-radius: 10px;
+  background: linear-gradient(145deg, var(--jdl-red-light), var(--jdl-red));
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-num);
+  font-weight: 800;
+  font-size: 18px;
+  letter-spacing: .5px;
+  box-shadow: 0 6px 14px rgba(225, 37, 27, .28);
+}
+.logo__text { line-height: 1.15; }
+.logo__name {
+  display: block;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: 1px;
+}
+.logo__sub {
+  display: block;
+  font-family: var(--font-num);
+  font-size: 9px;
+  letter-spacing: 1.2px;
+  color: var(--muted);
+}
+
+/* ---------- 2.2 一级菜单 ---------- */
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  height: 100%;
+  flex: 1;
+  min-width: 0;
+}
+/* 注意：定位基准是 .header__inner（不是菜单项），因此这里用 static */
+.nav__item { position: static; height: 100%; display: flex; align-items: center; }
+.nav__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 100%;
+  padding: 0 12px;
+  font-size: 14.5px;
+  font-weight: 500;
+  color: var(--text);
+  white-space: nowrap;          /* 菜单文字禁止换行 */
+  position: relative;
+  transition: color var(--t-fast);
+}
+.nav__link::after {
+  content: "";
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 18px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--jdl-red);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--t-base);
+}
+.nav__link:hover,
+.nav__item.is-open > .nav__link,
+.nav__link.is-active { color: var(--jdl-red); }
+.nav__link:hover::after,
+.nav__item.is-open > .nav__link::after,
+.nav__link.is-active::after { transform: scaleX(1); }
+.nav__caret {
+  width: 8px; height: 8px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: rotate(45deg) translateY(-2px);
+  transition: transform var(--t-fast);
+}
+.nav__item.is-open .nav__caret { transform: rotate(-135deg) translateY(-2px); }
+
+/* ---------- 2.3 右侧工具区 ---------- */
+.header__tools { display: flex; align-items: center; gap: 12px; flex: none; }
+
+.header__search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 168px;
+  height: 38px;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--bg-soft);
+  transition: border-color var(--t-fast), background var(--t-fast);
+}
+.header__search:focus-within { border-color: var(--jdl-red); background: #fff; }
+.header__search svg { width: 15px; height: 15px; color: var(--muted); flex: none; }
+.header__search input {
+  width: 100%;
+  border: 0;
+  outline: none;
+  background: transparent;
+  font-size: 13px;
+}
+.header__search input::placeholder { color: var(--muted); }
+
+.header__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 38px;
+  padding: 0 18px;
+  border-radius: 999px;
+  background: var(--jdl-red);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  box-shadow: 0 6px 16px rgba(225, 37, 27, .26);
+  transition: background var(--t-fast), transform var(--t-fast), box-shadow var(--t-fast);
+}
+.header__cta:hover {
+  background: var(--jdl-red-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(225, 37, 27, .3);
+}
+
+/* 汉堡按钮：仅移动端出现 */
+.header__burger {
+  display: none;
+  width: 40px; height: 40px;
+  border-radius: 8px;
+  place-items: center;
+  border: 1px solid var(--line);
+}
+.header__burger span {
+  display: block;
+  width: 18px; height: 2px;
+  background: var(--ink);
+  position: relative;
+  transition: background var(--t-fast);
+}
+.header__burger span::before,
+.header__burger span::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 18px; height: 2px;
+  background: var(--ink);
+  transition: transform var(--t-fast), top var(--t-fast);
+}
+.header__burger span::before { top: -6px; }
+.header__burger span::after { top: 6px; }
+.header__burger[aria-expanded="true"] span { background: transparent; }
+.header__burger[aria-expanded="true"] span::before { top: 0; transform: rotate(45deg); }
+.header__burger[aria-expanded="true"] span::after { top: 0; transform: rotate(-45deg); }
+
+/* ============================================================
+   3. 下拉大菜单（服务与产品 / 解决方案 / 服务支持）
+   ============================================================ */
+.megamenu {
+  position: absolute;
+  left: 0;                       /* 与页头内容区左边缘对齐 */
+  top: 100%;
+  width: 100%;                   /* 铺满 1200px 内容区宽度 */
+  transform: translateY(8px);
+  background: #fff;
+  border-radius: 0 0 var(--radius-l) var(--radius-l);
+  box-shadow: var(--shadow-l);
+  padding: 32px 36px 36px;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity var(--t-base), transform var(--t-base), visibility var(--t-base);
+  z-index: 120;
+}
+.nav__item.is-open .megamenu {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.megamenu__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px 40px;
+}
+.megamenu__col-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--muted);
+  padding-bottom: 10px;
+  margin-bottom: 14px;
+  border-bottom: 1px solid var(--line-2);
+}
+.megamenu__col-title::before {
+  content: "";
+  width: 3px; height: 12px;
+  background: var(--jdl-red);
+  border-radius: 2px;
+}
+.megamenu__list { display: grid; gap: 4px; }
+.megamenu__link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: var(--radius-s);
+  font-size: 14px;
+  color: var(--text);
+  transition: background var(--t-fast), color var(--t-fast);
+}
+.megamenu__link:hover { background: var(--bg-soft); color: var(--jdl-red); }
+.megamenu__link svg { width: 12px; height: 12px; opacity: .35; }
+.megamenu__link:hover svg { opacity: 1; }
+
+.megamenu__foot {
+  margin-top: 26px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line-2);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+.megamenu__foot p { font-size: 13px; color: var(--muted); }
+.megamenu__hot {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--text-2);
+}
+.megamenu__hot b { color: var(--jdl-red); font-weight: 600; }
+
+/* ============================================================
+   4. 移动端抽屉
+   ============================================================ */
+.drawer {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: none;
+}
+.drawer.is-open { display: block; }
+.drawer__mask {
+  position: absolute;
+  inset: 0;
+  background: rgba(17, 20, 24, .5);
+  opacity: 0;
+  transition: opacity var(--t-base);
+}
+.drawer.is-open .drawer__mask { opacity: 1; }
+.drawer__panel {
+  position: absolute;
+  top: 0; right: 0; bottom: 0;
+  width: min(360px, 86vw);
+  background: #fff;
+  padding: 20px 22px 40px;
+  overflow-y: auto;
+  transform: translateX(100%);
+  transition: transform var(--t-base);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.drawer.is-open .drawer__panel { transform: none; }
+.drawer__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--line-2);
+  margin-bottom: 10px;
+}
+.drawer__close {
+  width: 34px; height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--bg-soft);
+  font-size: 18px;
+  color: var(--text-2);
+}
+.drawer__group { border-bottom: 1px solid var(--line-2); }
+.drawer__toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 14px 2px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+  text-align: left;
+}
+.drawer__toggle .nav__caret { transition: transform var(--t-fast); }
+.drawer__group.is-open .drawer__toggle .nav__caret { transform: rotate(-135deg); }
+.drawer__sub {
+  display: grid;
+  gap: 2px;
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height var(--t-base);
+}
+.drawer__group.is-open .drawer__sub { max-height: 520px; }
+.drawer__sub a { padding: 9px 6px; font-size: 14px; color: var(--text-2); }
+.drawer__sub a:active { color: var(--jdl-red); }
+.drawer__cta { margin-top: 18px; justify-content: center; }
+
+/* ============================================================
+   5. 页脚
+   ============================================================ */
+.footer {
+  background: var(--bg-dark);
+  color: rgba(255, 255, 255, .66);
+  font-size: 13px;
+  padding: 64px 0 0;
+  margin-top: 0;
+}
+.footer__main {
+  display: grid;
+  grid-template-columns: 1.4fr repeat(3, 1fr) 1.2fr;
+  gap: 40px;
+  padding-bottom: 48px;
+}
+.footer__brand .logo__name { color: #fff; }
+.footer__brand .logo__sub { color: rgba(255, 255, 255, .42); }
+.footer__desc {
+  margin-top: 16px;
+  line-height: 1.9;
+  color: rgba(255, 255, 255, .5);
+  max-width: 300px;
+}
+.footer__tel {
+  margin-top: 18px;
+  font-family: var(--font-num);
+  font-size: 24px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: .5px;
+}
+.footer__tel span {
+  display: block;
+  font-family: var(--font-cn);
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0;
+  color: rgba(255, 255, 255, .5);
+  margin-bottom: 4px;
+}
+
+.footer__col h4 {
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 16px;
+  letter-spacing: .5px;
+}
+.footer__col li { margin-bottom: 9px; }
+.footer__col a { transition: color var(--t-fast); }
+.footer__col a:hover { color: #fff; }
+
+.footer__qr { text-align: left; }
+.footer__qr img {
+  width: 108px;
+  height: 108px;
+  border-radius: 8px;
+  background: #fff;
+  padding: 5px;
+}
+.footer__qr p { margin-top: 10px; font-size: 12px; color: rgba(255, 255, 255, .5); }
+
+.footer__bottom {
+  border-top: 1px solid rgba(255, 255, 255, .1);
+  padding: 20px 0 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  font-size: 12px;
+  color: rgba(255, 255, 255, .42);
+}
+.footer__bottom-links { display: flex; gap: 18px; flex-wrap: wrap; }
+.footer__bottom-links a:hover { color: #fff; }
+.footer__note {
+  margin-top: 8px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, .34);
+}
+
+/* ============================================================
+   6. 回到顶部 & 轻提示
+   ============================================================ */
+.to-top {
+  position: fixed;
+  right: 28px;
+  bottom: 32px;
+  z-index: 90;
+  width: 46px; height: 46px;
+  border-radius: 50%;
+  background: #fff;
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-m);
+  display: grid;
+  place-items: center;
+  color: var(--text-2);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(12px);
+  transition: opacity var(--t-base), transform var(--t-base), visibility var(--t-base), color var(--t-fast);
+}
+.to-top.is-show { opacity: 1; visibility: visible; transform: none; }
+.to-top:hover { color: var(--jdl-red); border-color: var(--jdl-red); }
+.to-top svg { width: 16px; height: 16px; }
+
+/* 轻提示：点击未实现的栏目入口时给出说明（js/ui.js 调用） */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 48px;
+  z-index: 300;
+  transform: translate(-50%, 20px);
+  background: rgba(17, 20, 24, .92);
+  color: #fff;
+  font-size: 13px;
+  padding: 10px 18px;
+  border-radius: 999px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--t-base), transform var(--t-base);
+}
+.toast.is-show { opacity: 1; transform: translate(-50%, 0); }
+
+/* ============================================================
+   7. 响应式：桌面 → 平板 → 手机
+   ============================================================ */
+@media (max-width: 1180px) {
+  .nav__link { padding: 0 10px; font-size: 14px; }
+  .header__search { width: 140px; }
+}
+
+@media (max-width: 1024px) {
+  :root { --header-h: 64px; }
+  .topbar { display: none; }               /* 移动端隐藏顶部工具条 */
+  .header__search { display: none; }       /* 搜索收敛进抽屉 */
+  .nav { display: none; }                  /* 一级菜单换成抽屉 */
+  .header__burger { display: grid; }
+  .header__inner { justify-content: space-between; }
+  .logo__name { font-size: 16px; }
+  .logo__mark { width: 40px; height: 40px; font-size: 16px; border-radius: 9px; }
+
+  .footer__main { grid-template-columns: 1fr 1fr; gap: 32px; }
+  .footer__brand { grid-column: 1 / -1; }
+  .footer__desc { max-width: none; }
+}
+
+@media (max-width: 640px) {
+  .container { padding-inline: 18px; }
+  .header__cta { display: none; }          /* 小屏用抽屉里的按钮 */
+  .footer__main { grid-template-columns: 1fr 1fr; gap: 28px 20px; }
+  .footer__bottom { flex-direction: column; align-items: flex-start; }
+  .to-top { right: 16px; bottom: 18px; width: 40px; height: 40px; }
+}

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>寄快递 · 安全可靠、时效领先的快递服务 | 京东物流（复刻示例）</title>
+  <meta name="description" content="京东快递寄件页复刻示例：运费时效查询、产品矩阵、服务流程与常见问题。">
+  <meta name="theme-color" content="#e1251b">
+
+  <link rel="stylesheet" href="../assets/css/base.css">
+  <link rel="stylesheet" href="../assets/css/layout.css">
+  <link rel="stylesheet" href="../assets/css/components.css">
+  <link rel="stylesheet" href="../assets/css/inner.css">
+</head>
+
+<body data-page="express" data-base="../" data-nav="service">
+
+  <div id="siteHeaderSlot"></div>
+
+  <main>
+
+    <!-- ============================================================
+         §0 页头 + 面包屑
+         ============================================================ -->
+    <section class="page-hero">
+      <div class="container">
+        <nav class="c-crumb" aria-label="面包屑">
+          <a href="../index.html">首页</a>
+          <span class="c-crumb__sep">/</span>
+          <span>寄快递</span>
+        </nav>
+
+        <div class="page-hero__inner">
+          <span class="page-hero__eyebrow">Express Delivery</span>
+          <h1 class="page-hero__title">安全可靠、时效领先的<br>快递服务</h1>
+          <p class="page-hero__desc">
+            覆盖个人与企业全场景寄件需求：手机下单、上门取件、全程可追踪。
+            支持实时查询快递单号与运费时效，让每一次寄递都安心。
+          </p>
+          <div class="page-hero__actions">
+            <a class="c-btn c-btn--primary" href="#quote">查询运费时效</a>
+            <a class="c-btn c-btn--ghost" href="#products">查看产品矩阵</a>
+          </div>
+        </div>
+
+        <span class="page-hero__watermark" aria-hidden="true">EXPRESS</span>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         §1 运费时效查询（表单 + 结果面板，算法见 ui.js initQuote）
+         ============================================================ -->
+    <section class="quote" id="quote">
+      <div class="container">
+        <div class="quote__card">
+          <div class="quote__head">
+            <h2>运费时效查询</h2>
+            <span>示例测算 · 非官方报价，实际以下单页为准</span>
+          </div>
+
+          <form class="quote__form" id="quoteForm" novalidate>
+            <div class="c-field">
+              <label class="c-field__label" for="fromCity">寄件城市</label>
+              <select class="c-select" id="fromCity" name="fromCity"></select>
+            </div>
+            <div class="c-field">
+              <label class="c-field__label" for="toCity">收件城市</label>
+              <select class="c-select" id="toCity" name="toCity"></select>
+            </div>
+            <div class="c-field">
+              <label class="c-field__label" for="goodsWeight">重量（kg）</label>
+              <input class="c-input" id="goodsWeight" name="weight" type="number" min="1" step="0.5" value="1">
+            </div>
+            <div class="c-field">
+              <label class="c-field__label" for="goodsType">物品类型</label>
+              <select class="c-select" id="goodsType" name="type">
+                <option value="1">文件 / 日用品</option>
+                <option value="1.2">生鲜冷链</option>
+                <option value="1.35">高值 3C</option>
+              </select>
+            </div>
+            <button class="c-btn c-btn--primary" type="submit">立即测算</button>
+          </form>
+
+          <!-- 查询结果：默认隐藏，JS 计算后 .is-show 展开 -->
+          <div class="quote__result" id="quoteResult" aria-live="polite">
+            <div class="quote__result-item">
+              <small>预估运费</small>
+              <b id="quotePrice">0<span>元</span></b>
+            </div>
+            <div class="quote__result-item">
+              <small>预估时效</small>
+              <b id="quoteTime">0<span>天</span></b>
+            </div>
+            <div class="quote__result-item">
+              <small>计费重量</small>
+              <b id="quoteWeightOut">0<span>kg</span></b>
+            </div>
+            <p class="quote__result-note">
+              运费 = 首重价格 + 续重价格 × 续重公斤数，体积重按长×宽×高÷6000 计算并取较大值；
+              偏远地区、特殊品类与增值服务会产生额外费用。
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         §2 服务承诺数据条
+         ============================================================ -->
+    <section class="c-section c-section--tight">
+      <div class="container">
+        <div class="metrics" data-reveal>
+          <div class="metrics__item">
+            <div class="c-stat__num">2800<em>+ 区县</em></div>
+            <div class="c-stat__label">配送范围覆盖</div>
+          </div>
+          <div class="metrics__item">
+            <div class="c-stat__num">24<em>小时</em></div>
+            <div class="c-stat__label">预约后上门取件</div>
+          </div>
+          <div class="metrics__item">
+            <div class="c-stat__num">1<em>小时</em></div>
+            <div class="c-stat__label">同城专人极速达</div>
+          </div>
+          <div class="metrics__item">
+            <div class="c-stat__num">7×24<em>小时</em></div>
+            <div class="c-stat__label">客服在线服务</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         §3 产品矩阵（卡片由 config.products 渲染）
+         ============================================================ -->
+    <section class="c-section c-section--soft" id="products">
+      <div class="container">
+        <div class="c-sec-head" data-reveal>
+          <span class="c-sec-head__eyebrow">Products</span>
+          <h2 class="c-sec-head__title">选择适合你的寄件产品</h2>
+          <p class="c-sec-head__desc">按时效、品类与预算选择不同产品，均支持线上下单与全程追踪。</p>
+        </div>
+
+        <div class="product-grid" id="productGrid"><!-- JS 渲染 --></div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         §4 服务流程
+         ============================================================ -->
+    <section class="c-section">
+      <div class="container">
+        <div class="c-sec-head" data-reveal>
+          <span class="c-sec-head__eyebrow">Process</span>
+          <h2 class="c-sec-head__title">四步完成一次寄件</h2>
+          <p class="c-sec-head__desc">从下单到签收，每个环节都可以在小程序里查看进度。</p>
+        </div>
+
+        <div class="steps">
+          <div class="step" data-reveal>
+            <span class="step__num"></span>
+            <h3 class="step__title">在线下单</h3>
+            <p class="step__desc">填写寄收信息，选择产品与取件时间段，系统即时给出运费与时效。</p>
+          </div>
+          <div class="step" data-reveal data-delay="1">
+            <span class="step__num"></span>
+            <h3 class="step__title">上门揽收</h3>
+            <p class="step__desc">快递员按预约时段上门，现场称重、验视并完成包装加固。</p>
+          </div>
+          <div class="step" data-reveal data-delay="2">
+            <span class="step__num"></span>
+            <h3 class="step__title">中转运输</h3>
+            <p class="step__desc">进入分拣中心后全程扫码，节点信息实时回传，异常自动预警。</p>
+          </div>
+          <div class="step" data-reveal data-delay="3">
+            <span class="step__num"></span>
+            <h3 class="step__title">派送到家</h3>
+            <p class="step__desc">按需送货上门或投递至驿站，签收后可在订单内查看凭证。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         §5 常见问题（左侧标题常驻，右侧折叠面板）
+         ============================================================ -->
+    <section class="c-section c-section--soft" id="faq">
+      <div class="container">
+        <div class="faq">
+          <div class="faq__aside" data-reveal>
+            <span class="c-sec-head__eyebrow">FAQ</span>
+            <h2 class="c-sec-head__title">常见问题</h2>
+            <p class="c-sec-head__desc">
+              关于时效、禁寄、计费与理赔的高频问题。
+              若还有疑问，可拨打 950616 由客服协助处理。
+            </p>
+            <a class="c-btn c-btn--ghost u-mt-24" href="about.html#contact">联系客服</a>
+          </div>
+
+          <div class="c-accordion" id="faqAccordion"><!-- JS 渲染 --></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         §6 CTA
+         ============================================================ -->
+    <section class="c-section">
+      <div class="container">
+        <div class="c-cta" data-reveal>
+          <div>
+            <h2 class="c-cta__title">现在下单，最快明天送达</h2>
+            <p class="c-cta__desc">新用户首单可享上门取件服务，企业与商家可申请月结与专属客户经理。</p>
+          </div>
+          <div class="c-cta__actions">
+            <a class="c-btn c-btn--primary" href="#quote">立即寄件</a>
+            <a class="c-btn c-btn--line" href="supply-chain.html">企业仓配方案</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <div id="siteFooterSlot"></div>
+
+  <script src="../assets/js/config.js"></script>
+  <script src="../assets/js/components.js"></script>
+  <script src="../assets/js/carousel.js"></script>
+  <script src="../assets/js/ui.js"></script>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

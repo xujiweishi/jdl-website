@@ -1,0 +1,443 @@
+/* ============================================================
+   京东物流官网复刻 · 组件层  components.css
+   ------------------------------------------------------------
+   职责：可复用 UI 组件——按钮、区块标题、标签、卡片、轮播、
+        数据统计、折叠面板、表单、时间轴、CTA 通栏。
+   所有组件都以 .c- 前缀命名，避免与页面样式冲突。
+   ============================================================ */
+
+/* ============================================================
+   1. 按钮
+   ============================================================ */
+.c-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 48px;
+  padding: 0 26px;
+  border-radius: 999px;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: .3px;
+  border: 1px solid transparent;
+  transition: background var(--t-fast), color var(--t-fast),
+              border-color var(--t-fast), transform var(--t-fast),
+              box-shadow var(--t-fast);
+}
+.c-btn svg { width: 15px; height: 15px; }
+
+/* 主按钮：红底白字 */
+.c-btn--primary {
+  background: linear-gradient(135deg, var(--jdl-red-light), var(--jdl-red));
+  color: #fff;
+  box-shadow: 0 10px 22px rgba(225, 37, 27, .28);
+}
+.c-btn--primary:hover {
+  background: var(--jdl-red-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 14px 28px rgba(225, 37, 27, .34);
+}
+/* 次按钮：白底墨字，用于浅色背景 */
+.c-btn--ghost {
+  background: rgba(255, 255, 255, .7);
+  color: var(--ink);
+  border-color: var(--line);
+}
+.c-btn--ghost:hover {
+  background: #fff;
+  border-color: var(--jdl-red);
+  color: var(--jdl-red);
+  transform: translateY(-2px);
+}
+/* 线框按钮：深色背景上用 */
+.c-btn--line {
+  border-color: rgba(255, 255, 255, .55);
+  color: #fff;
+}
+.c-btn--line:hover { background: rgba(255, 255, 255, .12); border-color: #fff; }
+
+/* 文字链接按钮 */
+.c-btn--text {
+  height: auto;
+  padding: 0;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-2);
+  border: 0;
+}
+.c-btn--text svg { width: 12px; height: 12px; }
+.c-btn--text:hover { color: var(--jdl-red); }
+.c-btn--text:hover svg { transform: translateX(3px); }
+.c-btn--text svg { transition: transform var(--t-fast); }
+
+.c-btn--sm { height: 38px; padding: 0 18px; font-size: 13px; }
+
+/* ============================================================
+   2. 区块标题
+   ============================================================ */
+.c-section { padding: 88px 0; }
+.c-section--soft { background: var(--bg-soft); }
+.c-section--tight { padding: 64px 0; }
+
+.c-sec-head { max-width: 720px; }
+.c-sec-head--center { margin-inline: auto; text-align: center; }
+.c-sec-head__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-num);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--jdl-red);
+  margin-bottom: 14px;
+}
+.c-sec-head__eyebrow::before {
+  content: "";
+  width: 18px; height: 2px;
+  background: var(--jdl-red);
+}
+.c-sec-head--center .c-sec-head__eyebrow::after {
+  content: "";
+  width: 18px; height: 2px;
+  background: var(--jdl-red);
+}
+.c-sec-head__title { font-size: 34px; line-height: 1.3; font-weight: 700; color: var(--ink); }
+.c-sec-head__desc { margin-top: 14px; font-size: 15px; color: var(--text-2); line-height: 1.9; }
+
+/* 标题 + 右侧"更多"链接的一行布局 */
+.c-sec-bar {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+@media (max-width: 768px) {
+  .c-section { padding: 60px 0; }
+  .c-sec-head__title { font-size: 26px; }
+  .c-sec-bar { flex-direction: column; align-items: flex-start; gap: 14px; margin-bottom: 28px; }
+}
+
+/* ============================================================
+   3. 标签 / 胶囊
+   ============================================================ */
+.c-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 26px;
+  padding: 0 12px;
+  border-radius: 999px;
+  background: var(--jdl-red-soft);
+  color: var(--jdl-red);
+  font-size: 12px;
+  font-weight: 600;
+}
+.c-tag--gray { background: var(--bg-soft); color: var(--muted); font-weight: 400; }
+
+.c-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 40px;
+  padding: 0 18px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: #fff;
+  font-size: 14px;
+  color: var(--text-2);
+  transition: all var(--t-fast);
+}
+.c-chip:hover,
+.c-chip.is-active {
+  border-color: var(--jdl-red);
+  color: var(--jdl-red);
+  background: var(--jdl-red-soft);
+}
+.c-chip svg { width: 13px; height: 13px; }
+
+/* ============================================================
+   4. 轮播（首页促销位）
+   ---------------------------------------------------------
+   结构见 js/components.js 的 banner 区块或 index.html：
+     .c-carousel > [track] > .c-carousel__slide
+   位移由 js/carousel.js 通过 transform: translateX() 驱动
+   ============================================================ */
+.c-carousel {
+  position: relative;
+  border-radius: var(--radius-l);
+  overflow: hidden;
+  box-shadow: var(--shadow-l);
+  background: #111;
+  isolation: isolate;
+}
+.c-carousel__viewport { overflow: hidden; }
+.c-carousel__track {
+  display: flex;
+  transition: transform .65s var(--ease);
+  will-change: transform;
+}
+.c-carousel__slide {
+  flex: 0 0 100%;
+  position: relative;
+}
+.c-carousel__slide img {
+  width: 100%;
+  aspect-ratio: 896 / 289;   /* 与官网 banner 保持一致的比例 */
+  object-fit: cover;
+}
+/* 图片上的可点击遮罩（整屏可点） */
+.c-carousel__slide a { display: block; }
+
+/* 箭头 */
+.c-carousel__arrow {
+  position: absolute;
+  top: 50%;
+  translate: 0 -50%;
+  z-index: 3;
+  width: 46px; height: 46px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: rgba(255, 255, 255, .86);
+  color: var(--ink);
+  box-shadow: var(--shadow-s);
+  opacity: 0;
+  transition: opacity var(--t-base), background var(--t-fast), transform var(--t-fast);
+}
+.c-carousel:hover .c-carousel__arrow { opacity: 1; }
+.c-carousel__arrow:hover { background: #fff; transform: scale(1.06); }
+.c-carousel__arrow--prev { left: 20px; }
+.c-carousel__arrow--next { right: 20px; }
+.c-carousel__arrow svg { width: 16px; height: 16px; }
+
+/* 圆点 */
+.c-carousel__dots {
+  position: absolute;
+  left: 50%;
+  bottom: 18px;
+  translate: -50% 0;
+  z-index: 3;
+  display: flex;
+  gap: 8px;
+}
+.c-carousel__dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .55);
+  transition: all var(--t-fast);
+}
+.c-carousel__dot.is-active {
+  width: 24px;
+  border-radius: 999px;
+  background: #fff;
+}
+
+/* ============================================================
+   5. 数据统计
+   ============================================================ */
+.c-stat__num {
+  font-family: var(--font-num);
+  font-size: 46px;
+  font-weight: 800;
+  line-height: 1.1;
+  color: var(--ink);
+  letter-spacing: -1px;
+}
+.c-stat__num em {
+  font-style: normal;
+  font-size: 22px;
+  font-weight: 600;
+  margin-left: 4px;
+  color: var(--jdl-red);
+}
+.c-stat__label {
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* ============================================================
+   6. 折叠面板（FAQ）
+   ============================================================ */
+.c-accordion { border-top: 1px solid var(--line); }
+.c-accordion__item { border-bottom: 1px solid var(--line); }
+.c-accordion__btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  width: 100%;
+  padding: 22px 4px;
+  text-align: left;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ink);
+  transition: color var(--t-fast);
+}
+.c-accordion__btn:hover { color: var(--jdl-red); }
+.c-accordion__icon {
+  flex: none;
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  display: grid;
+  place-items: center;
+  color: var(--muted);
+  transition: all var(--t-fast);
+}
+.c-accordion__icon::before,
+.c-accordion__icon::after {
+  content: "";
+  position: absolute;
+  background: currentColor;
+}
+.c-accordion__icon { position: relative; }
+.c-accordion__icon::before { width: 10px; height: 1.5px; }
+.c-accordion__icon::after { width: 1.5px; height: 10px; transition: transform var(--t-fast); }
+.c-accordion__item.is-open .c-accordion__icon {
+  background: var(--jdl-red);
+  border-color: var(--jdl-red);
+  color: #fff;
+}
+.c-accordion__item.is-open .c-accordion__icon::after { transform: scaleY(0); }
+.c-accordion__panel {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height var(--t-base);
+}
+.c-accordion__panel-inner {
+  padding: 0 4px 24px;
+  font-size: 14px;
+  line-height: 1.9;
+  color: var(--text-2);
+  max-width: 900px;
+}
+.c-accordion__item.is-open .c-accordion__panel { max-height: 480px; }
+
+/* ============================================================
+   7. 表单控件（运费查询 / 联系表单共用）
+   ============================================================ */
+.c-field { display: grid; gap: 8px; }
+.c-field__label { font-size: 13px; color: var(--muted); }
+.c-input,
+.c-select {
+  height: 46px;
+  padding: 0 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: #fff;
+  font-size: 14px;
+  transition: border-color var(--t-fast), box-shadow var(--t-fast);
+}
+.c-input:focus,
+.c-select:focus {
+  outline: none;
+  border-color: var(--jdl-red);
+  box-shadow: 0 0 0 3px rgba(225, 37, 27, .1);
+}
+.c-select {
+  appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, #999 50%),
+                    linear-gradient(135deg, #999 50%, transparent 50%);
+  background-position: calc(100% - 18px) 21px, calc(100% - 13px) 21px;
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+  padding-right: 36px;
+}
+
+/* ============================================================
+   8. 时间轴（关于我们·发展历程）
+   ============================================================ */
+.c-timeline {
+  position: relative;
+  display: grid;
+  gap: 28px;
+  padding-left: 28px;
+}
+.c-timeline::before {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 6px;
+  bottom: 6px;
+  width: 2px;
+  background: linear-gradient(180deg, var(--jdl-red), var(--line));
+  border-radius: 2px;
+}
+.c-timeline__item { position: relative; }
+.c-timeline__item::before {
+  content: "";
+  position: absolute;
+  left: -27px;
+  top: 8px;
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid var(--jdl-red);
+}
+.c-timeline__year {
+  font-family: var(--font-num);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--jdl-red);
+}
+.c-timeline__title { font-size: 16px; font-weight: 600; color: var(--ink); margin-top: 4px; }
+.c-timeline__desc { font-size: 13px; color: var(--text-2); margin-top: 6px; line-height: 1.8; }
+
+/* ============================================================
+   9. CTA 通栏（红色渐变）
+   ============================================================ */
+.c-cta {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-l);
+  background:
+    radial-gradient(120% 160% at 88% 12%, rgba(255, 255, 255, .22), transparent 60%),
+    linear-gradient(120deg, #b3160e, var(--jdl-red) 55%, #ff5a4d);
+  color: #fff;
+  padding: 56px 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+.c-cta::after {
+  /* 装饰性光斑，纯视觉，不承载信息 */
+  content: "";
+  position: absolute;
+  right: -80px;
+  top: -80px;
+  width: 320px; height: 320px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .14);
+  filter: blur(10px);
+}
+.c-cta__title { position: relative; font-size: 30px; font-weight: 700; line-height: 1.4; }
+.c-cta__desc { position: relative; margin-top: 10px; font-size: 14px; color: rgba(255, 255, 255, .82); }
+.c-cta__actions { position: relative; display: flex; gap: 14px; flex-wrap: wrap; }
+
+@media (max-width: 768px) {
+  .c-cta { padding: 36px 26px; }
+  .c-cta__title { font-size: 22px; }
+}
+
+/* ============================================================
+   10. 面包屑
+   ============================================================ */
+.c-crumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--muted);
+  padding: 18px 0;
+}
+.c-crumb a:hover { color: var(--jdl-red); }
+.c-crumb__sep { opacity: .5; }

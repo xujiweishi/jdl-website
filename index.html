@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>京东物流 省心高效 | 快递物流双服务，助力千万家企业降本增效（复刻示例）</title>
+  <meta name="description" content="京东物流官网首页静态复刻示例：一体化供应链解决方案、快递快运、仓配一体、冷链、国际物流等服务介绍。">
+  <meta name="keywords" content="京东物流,快递,物流,仓配一体,冷链,国际物流,复刻">
+  <meta name="theme-color" content="#e1251b">
+
+  <!-- 样式分层：基础 → 布局 → 组件 → 首页 -->
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/layout.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <link rel="stylesheet" href="assets/css/home.css">
+</head>
+
+<!--
+  data-page : 页面类型，main.js 据此决定初始化哪些交互
+  data-base : 资源路径前缀（首页在根目录，故为空字符串；子页为 "../"）
+  data-nav  : 当前高亮的导航项 key
+-->
+<body data-page="home" data-base="" data-nav="home">
+
+  <!-- 页头由 assets/js/components.js 注入（全站共用一份） -->
+  <div id="siteHeaderSlot"></div>
+
+  <main>
+
+    <!-- ============================================================
+         §1 Hero 主视觉
+         ============================================================ -->
+    <section class="hero" id="top">
+      <div class="hero__deco" aria-hidden="true"></div>
+      <div class="container hero__inner">
+        <div class="hero__content">
+          <span class="hero__badge"><i></i>技术驱动的供应链解决方案与物流服务商</span>
+          <h1 class="hero__title">助力企业<span class="is-red">降本增效</span></h1>
+          <p class="hero__subtitle">一体化供应链解决方案专家</p>
+          <p class="hero__desc">
+            从日常快递收发，到大规模物流货运与复杂的供应链履约，
+            京东物流以技术驱动的一体化服务能力，帮助千万家企业把物流变成竞争力。
+          </p>
+
+          <div class="hero__actions">
+            <a class="c-btn c-btn--primary" href="pages/about.html#contact">立即咨询</a>
+            <a class="c-btn c-btn--ghost" href="#services">查看服务能力</a>
+          </div>
+
+          <div class="hero__trust">
+            <span>3600+ 个仓库</span>
+            <span>3400 万㎡ 仓储面积</span>
+            <span>海外仓覆盖 25 个国家和地区</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         §2 促销轮播（真实官网 banner 素材，自动播放）
+         ============================================================ -->
+    <section class="promo">
+      <div class="container">
+        <div class="promo__head">
+          <h2 class="promo__title">大促备货 · 服务直达</h2>
+          <span class="promo__note">共 5 张服务推荐 · 支持自动轮播 / 手势滑动</span>
+        </div>
+
+        <div class="c-carousel" id="promoCarousel" aria-roledescription="轮播" aria-label="服务推荐轮播">
+          <div class="c-carousel__viewport">
+            <div class="c-carousel__track">
+              <div class="c-carousel__slide"><a href="pages/supply-chain.html"><img src="assets/images/banner/banner-01.jpg" alt="大促备货 用京东物流：覆盖广、时效快、仓仓绿通、专业交仓"></a></div>
+              <div class="c-carousel__slide"><a href="pages/express.html"><img src="assets/images/banner/banner-02.jpg" alt="今天寄 明天到：跨省急件选京东特快" loading="lazy"></a></div>
+              <div class="c-carousel__slide"><a href="pages/express.html"><img src="assets/images/banner/banner-03.jpg" alt="口岸寄行李 用京东快递：轻装出行更省心" loading="lazy"></a></div>
+              <div class="c-carousel__slide"><a href="pages/about.html#contact"><img src="assets/images/banner/banner-04.jpg" alt="提线索 拿现金：注册成为物流合伙人" loading="lazy"></a></div>
+              <div class="c-carousel__slide"><a href="pages/supply-chain.html"><img src="assets/images/banner/banner-05.jpg" alt="冷链仓配 用京东物流：精准温控 锁鲜到家" loading="lazy"></a></div>
+            </div>
+          </div>
+
+          <button class="c-carousel__arrow c-carousel__arrow--prev" type="button" aria-label="上一张">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 6l-6 6 6 6"></path></svg>
+          </button>
+          <button class="c-carousel__arrow c-carousel__arrow--next" type="button" aria-label="下一张">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 6l6 6-6 6"></path></svg>
+          </button>
+          <div class="c-carousel__dots" role="tablist" aria-label="轮播指示"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         §3 面向丰富场景的物流服务
+         卡片由 config.js 的 services 渲染，数量变化无需改 HTML
+         ============================================================ -->
+    <section class="services" id="services">
+      <div class="container">
+        <div class="c-sec-head c-sec-head--center" data-reveal>
+          <span class="c-sec-head__eyebrow">Services</span>
+          <h2 class="c-sec-head__title">面向丰富场景的物流服务</h2>
+          <p class="c-sec-head__desc">
+            从快递快运到仓配一体，从冷链医药到国际物流与物流科技，
+            一站式的服务能力覆盖企业供应链全链路。
+          </p>
+        </div>
+
+        <div class="services__grid" id="servicesGrid"><!-- JS 渲染 --></div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         §4 快递快运服务（左文案 + 产品页签 · 右卡车图）
+         ============================================================ -->
+    <section class="express" id="express">
+      <div class="container express__inner">
+        <div class="express__content" data-reveal>
+          <span class="express__eyebrow">Express &amp; Freight</span>
+          <h2 class="express__title">快递快运服务</h2>
+          <p class="express__desc">
+            向企业及个人客户提供安全可靠、时效领先、专业贴心的快递及快运服务，
+            以及在此基础上的保价、签单返还、代收货款等多种增值服务。
+          </p>
+
+          <!-- 页签：快递 / 快运，切换下方产品胶囊 -->
+          <div class="express__tabs" id="expressTabs" role="tablist" aria-label="服务类型">
+            <button class="express__tab is-active" type="button" data-tab="express" role="tab" aria-selected="true">快递</button>
+            <button class="express__tab" type="button" data-tab="freight" role="tab" aria-selected="false">快运</button>
+          </div>
+
+          <div class="express__products" id="expressChips"><!-- JS 渲染 --></div>
+
+          <div class="express__actions">
+            <a class="c-btn c-btn--primary" href="pages/express.html">立即寄件</a>
+            <a class="c-btn c-btn--text" href="pages/express.html">
+              查看产品详情
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 12h13"></path><path d="M13 6l6 6-6 6"></path></svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="express__media" data-reveal data-delay="2">
+          <img src="assets/images/service/truck.jpg" alt="京东快递货车：寄件用京东快递，上门取送上门" loading="lazy">
+          <div class="express__badge">
+            <b>核心城市次日达</b>
+            全国 2800+ 区县覆盖 · 上门取件
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         §5 热门行业解决方案（左文案随右侧图标联动）
+         ============================================================ -->
+    <section class="solutions" id="solutions">
+      <div class="container">
+        <div class="solutions__head" data-reveal>
+          <span class="c-sec-head__eyebrow">Industry Solutions</span>
+          <h2 class="c-sec-head__title">热门行业解决方案</h2>
+          <p class="c-sec-head__desc">京东物流完善的服务体系为企业保驾护航，点击行业图标查看方案要点。</p>
+        </div>
+
+        <div class="solutions__inner">
+          <!-- 左侧：选中行业的文案面板 -->
+          <div class="solutions__panel" id="solutionsPanel" data-reveal>
+            <span class="solutions__panel-tag">行业方案</span>
+            <h3 class="solutions__panel-title" id="industryTitle">快消行业解决方案</h3>
+            <p class="solutions__panel-desc" id="industryDesc">加载中…</p>
+            <ul class="solutions__panel-list" id="industryList"></ul>
+            <div class="solutions__panel-foot">
+              <a class="c-btn c-btn--text" id="industryLink" href="#" data-soon="1">了解更多</a>
+              <a class="c-btn c-btn--primary c-btn--sm" href="pages/about.html#contact">咨询方案</a>
+            </div>
+          </div>
+
+          <!-- 右侧：6 个行业卡片 -->
+          <div class="solutions__grid" id="industryGrid"><!-- JS 渲染 --></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         §6 物流网络（数字滚动 + 网络能力）
+         ============================================================ -->
+    <section class="network" id="network">
+      <div class="container">
+        <div class="network__head">
+          <div class="c-sec-head" data-reveal>
+            <span class="c-sec-head__eyebrow">Network</span>
+            <h2 class="c-sec-head__title">物流网络</h2>
+            <p class="c-sec-head__desc">遍布全球的基础设施为物流提供快速稳定、智能可靠的服务。</p>
+          </div>
+          <a class="c-btn c-btn--text" href="#" data-soon="1">
+            查看网络布局
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 12h13"></path><path d="M13 6l6 6-6 6"></path></svg>
+          </a>
+        </div>
+
+        <div class="network__stats" id="networkStats"><!-- JS 渲染 --></div>
+        <div class="network__features" id="networkFeatures"><!-- JS 渲染 --></div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         §7 新闻动态
+         ============================================================ -->
+    <section class="news" id="news">
+      <div class="container">
+        <div class="c-sec-bar" data-reveal>
+          <div class="c-sec-head">
+            <span class="c-sec-head__eyebrow">News</span>
+            <h2 class="c-sec-head__title">新闻动态</h2>
+            <p class="c-sec-head__desc">了解京东物流的最新经营进展、ESG 实践与行业认可。</p>
+          </div>
+          <a class="c-btn c-btn--text" href="#" data-soon="1">
+            更多新闻
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 12h13"></path><path d="M13 6l6 6-6 6"></path></svg>
+          </a>
+        </div>
+
+        <div class="news__grid" id="newsGrid"><!-- JS 渲染 --></div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         §8 联系我们（红色通栏 + 二维码）
+         ============================================================ -->
+    <section class="contact" id="contact">
+      <div class="container">
+        <div class="contact__box" data-reveal>
+          <div>
+            <div class="contact__label">Contact us</div>
+            <h2 class="contact__title">让供应链更简单、更高效</h2>
+            <p class="contact__desc">
+              无论是个人寄件，还是企业仓配、冷链、大件、跨境等一体化需求，
+              都可以交给京东物流。7×24 小时客服为您服务。
+            </p>
+            <div class="contact__phone">
+              <span class="contact__phone-num">950616</span>
+              <span class="contact__phone-note">客服专线<br>7×24 小时在线</span>
+            </div>
+            <div class="contact__actions">
+              <a class="c-btn c-btn--line" href="pages/about.html#contact">企业合作咨询</a>
+              <a class="c-btn c-btn--ghost" href="pages/express.html">个人寄快递</a>
+            </div>
+          </div>
+
+          <div class="contact__qr">
+            <img src="assets/images/contact/qrcode.jpg" alt="扫码进入京东快递小程序" loading="lazy">
+            <p>扫码下单 · 上门取件</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <div id="siteFooterSlot"></div>
+
+  <!-- ============================================================
+       脚本：配置 → 组件 → 轮播 → 交互 → 页面入口
+       顺序不可打乱（后者依赖前者的全局对象）
+       ============================================================ -->
+  <script src="assets/js/config.js"></script>
+  <script src="assets/js/components.js"></script>
+  <script src="assets/js/carousel.js"></script>
+  <script src="assets/js/ui.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
